@@ -1,5 +1,5 @@
 import lejos.nxt.Button;
-import lejos.nxt.ColorSensor;
+import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
@@ -11,7 +11,7 @@ public class StandardRobot {
 	
 	public static UltrasonicSensor us;
 	public static DifferentialPilot pilot;
-	public static ColorSensor cs;
+	public static LightSensor cs;
 	public String currentBehavior;
 	public static int safeDistance;
 	
@@ -25,7 +25,7 @@ public class StandardRobot {
 
 	public StandardRobot(){
 		us = new UltrasonicSensor(SensorPort.S1);
-		cs = new ColorSensor(SensorPort.S2);
+		cs = new LightSensor(SensorPort.S3);
 		pilot = new DifferentialPilot(5f,16.5f,Motor.A,Motor.B);
 		currentBehavior = "IDLE";
 		safeDistance = 50;

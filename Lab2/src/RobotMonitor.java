@@ -13,8 +13,7 @@ public class RobotMonitor extends Thread{
 	public void run(){
 		LCD.clear();
 		LCD.drawString("Dist:"+StandardRobot.us.getRange(), 0, 0);
-		//LCD.drawString("Color:"+sr.cs.getColor().getRed() +","+ sr.cs.getColor().getGreen()+","+ sr.cs.getColor().getBlue(), 0, 1);
-		LCD.drawString("Current:"+sr.getCurrentBehavior(), 0, 1);
+		LCD.drawString("Current:"+sr.getCurrentBehavior(), 0, 2);
 		//try { Thread.sleep(delay); } catch (Exception e) {;}
 	}
 }

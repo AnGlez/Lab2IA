@@ -10,7 +10,9 @@ public class AvoidBehavior implements Behavior{
 	public AvoidBehavior(StandardRobot s) {
 		robot = s;
 	}
-	
+	public boolean obstacleDetected(){
+		return robot.us.getDistance() < robot.getSafeDistance();
+	}
 	@Override
 	public boolean takeControl() {
 		
@@ -25,7 +27,10 @@ public class AvoidBehavior implements Behavior{
 		robot.setCurrentBehavior("Avoid");
 		Random rand = new Random();
 		double range = 180;
-		StandardRobot.pilot.rotate((rand.nextDouble() * range - 90)* -1);
+		while (obstacleDetected()) {
+			StandardRobot.pilot.rotate((rand.nextDouble() * range - 90)* -1);
+		}
+		
 		
 	}
 
