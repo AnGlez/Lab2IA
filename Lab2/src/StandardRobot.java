@@ -13,6 +13,7 @@ public class StandardRobot {
 	public static DifferentialPilot pilot;
 	public static ColorSensor cs;
 	public String currentBehavior;
+	public static int safeDistance;
 	
 	public String getCurrentBehavior() {
 		return currentBehavior;
@@ -26,15 +27,20 @@ public class StandardRobot {
 		us = new UltrasonicSensor(SensorPort.S1);
 		cs = new ColorSensor(SensorPort.S2);
 		pilot = new DifferentialPilot(5f,16.5f,Motor.A,Motor.B);
+		currentBehavior = "IDLE";
+		safeDistance = 50;
 		
 	}
-	
+	public int getSafeDistance(){
+		return safeDistance;
+	}
 	public static void main(String args[]){
 		StandardRobot me = new StandardRobot();
-		AvoidBehavior avoid = new AvoidBehavior(me, 50);
-		ExploreBehavior exp = new ExploreBehavior(me);
 		RobotMonitor monitor = new RobotMonitor(100,me);
 		monitor.start();
+
+		AvoidBehavior avoid = new AvoidBehavior(me);
+		ExploreBehavior exp = new ExploreBehavior(me);
 		
 		Behavior [] bArray = {exp,avoid};
 		Arbitrator arb = new Arbitrator(bArray);
