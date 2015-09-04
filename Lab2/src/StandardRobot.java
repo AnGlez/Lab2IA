@@ -36,9 +36,6 @@ public class StandardRobot {
 	}
 	public static void main(String args[]){
 		StandardRobot me = new StandardRobot();
-		RobotMonitor monitor = new RobotMonitor(100,me);
-		monitor.start();
-
 		AvoidBehavior avoid = new AvoidBehavior(me);
 		ExploreBehavior exp = new ExploreBehavior(me);
 		
