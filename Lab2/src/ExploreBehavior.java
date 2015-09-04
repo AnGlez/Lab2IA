@@ -31,13 +31,6 @@ public class ExploreBehavior implements Behavior{
 		if (current - start > sec *1000){
 			StandardRobot.pilot.rotate(rand.nextDouble() * 90 - 45);
 			start = current;
-			
-		}
-		if (StandardRobot.cs.readNormalizedValue() < 300) {
-			LCD.clear();
-			LCD.drawString("Found a dark spot", 0, 0);
-			Sound.buzz();
-			
 		}
 		
 	}

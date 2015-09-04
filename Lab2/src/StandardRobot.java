@@ -38,8 +38,8 @@ public class StandardRobot {
 		StandardRobot me = new StandardRobot();
 		AvoidBehavior avoid = new AvoidBehavior(me);
 		ExploreBehavior exp = new ExploreBehavior(me);
-		
-		Behavior [] bArray = {exp,avoid};
+		DetectBehavior det = new DetectBehavior(me);
+		Behavior [] bArray = {exp,det,avoid};
 		Arbitrator arb = new Arbitrator(bArray);
 		Button.waitForAnyPress();
 		
