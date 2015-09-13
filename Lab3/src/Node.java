@@ -34,7 +34,7 @@ public class Node{
 		Iterator i = neighbors.entrySet().iterator();
 		while (i.hasNext()) {
 			Map.Entry pair = (Map.Entry)i.next();
-			node += this.toString()+"-" + pair.getValue() + "-" + pair.getKey().toString()+"\n";
+			node += this.toString()+"-" + pair.getValue() + "->" + pair.getKey().toString()+"\n";
 		}
 		System.out.println(node);
 	}
