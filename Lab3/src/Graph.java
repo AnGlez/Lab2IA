@@ -31,8 +31,7 @@ public class Graph{
 			line = reader.readLine(); //the first line only tells us how many nodes there are
 			StringTokenizer t = new StringTokenizer(line);
 			while (t.hasMoreTokens()){ // create each node and add them to the graph
-				myGraph.addNode(new Node(row));
-				t.nextToken();
+				myGraph.addNode(new Node(row,t.nextToken()));
 				row++;
 			}
 

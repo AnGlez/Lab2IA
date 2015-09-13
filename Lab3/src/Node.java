@@ -6,10 +6,12 @@ public class Node{
 
 	private HashMap<Node, Integer> neighbors; //neighbor node and edge cost
 	private int id;
+	private String name;
 	
-	public Node(int id) {
+	public Node(int id, String name) {
 		neighbors = new HashMap<Node, Integer>();
 		this.id = id;
+		this.name = name;
 	}
 	public HashMap<Node, Integer> getNeighbors() {
 		return neighbors;
@@ -27,7 +29,7 @@ public class Node{
 		neighbors.put(n, cost); 
 	}
 	public String toString(){
-		return "[ "+id+" ]";
+		return "["+name+"]";
 	}
 	public void print(){
 		String node = "";
