@@ -1,9 +1,17 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.StringTokenizer;
-
 public class UninformedSearch {
+	
+	public void breathFirst(String start, String destination){	
 		
+	}
+	
+	public void depthFirst(String start, String destination){
+		
+	}
+	
+	public void uniformCost(String start, String destination){
+		
+	}
+	
 	public static void main(String args[]){
 		Graph myGraph = new Graph();
 		myGraph.load("graph.txt");

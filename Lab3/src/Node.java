@@ -5,12 +5,10 @@ import java.util.Map;
 public class Node{
 
 	private HashMap<Node, Integer> neighbors; //neighbor node and edge cost
-	private int id;
 	private String name;
 	
-	public Node(int id, String name) {
+	public Node(String name) {
 		neighbors = new HashMap<Node, Integer>();
-		this.id = id;
 		this.name = name;
 	}
 	public HashMap<Node, Integer> getNeighbors() {
@@ -18,15 +16,12 @@ public class Node{
 	}
 	public void setNeighbors(HashMap<Node, Integer> neighbors) {
 		this.neighbors = neighbors;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}	
 	public void addNeighbor(Node n, int cost) {
 		neighbors.put(n, cost); 
+	}
+	public String getName(){
+		return name;
 	}
 	public String toString(){
 		return "["+name+"]";

@@ -1,18 +1,21 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Graph{
-	private HashMap<Integer,Node> nodes;
+	private HashMap<String,Node> nodes;
+	private ArrayList<String> nodeIds;
 	
 	public Graph(){
-		nodes = new HashMap<Integer,Node>();
+		nodes = new HashMap<String,Node>();
+		nodeIds = new ArrayList<String>();
 	}
 	public void addNode(Node n){
-		nodes.put(n.getId(),n);
+		nodes.put(n.getName(), n);
 	}
 	/* Reads text file with adjacency matrix 
 	 * Creates nodes in first iteration 
@@ -31,7 +34,9 @@ public class Graph{
 			line = reader.readLine(); //the first line only tells us how many nodes there are
 			StringTokenizer t = new StringTokenizer(line);
 			while (t.hasMoreTokens()){ // create each node and add them to the graph
-				myGraph.addNode(new Node(row,t.nextToken()));
+				String city = t.nextToken();
+				myGraph.addNode(new Node(city));
+				nodeIds.add(city);
 				row++;
 			}
 
@@ -41,9 +46,10 @@ public class Graph{
 				StringTokenizer tk = new StringTokenizer(line); //tokenizing current line
 				col = 0; //restart pointer to first column of matrix
 				while (tk.hasMoreTokens()){
-					Node neigh = myGraph.findNode(col); //neighbor of current node
+					
+					Node neigh = myGraph.findNode(nodeIds.get(col)); //neighbor of current node
 					int c = Integer.parseInt(tk.nextToken());//path cost to neighbor, -1 if there's no path
-					myGraph.findNode(row).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
+					myGraph.findNode(nodeIds.get(row)).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
 					col++; //moving pointer to next column of adjacency matrix
 				}
 				row++;//moving pointer to next row
@@ -62,7 +68,8 @@ public class Graph{
 		}
 		
 	}
-	public Node findNode(int id) {
-		return nodes.get(id);
+	public Node findNode(String name) {
+		return nodes.get(name);
 	}
+
 }
