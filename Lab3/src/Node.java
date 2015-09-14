@@ -6,10 +6,12 @@ public class Node{
 
 	private HashMap<Node, Integer> neighbors; //neighbor node and edge cost
 	private String name;
+	private boolean visited;
 	
 	public Node(String name) {
 		neighbors = new HashMap<Node, Integer>();
 		this.name = name;
+		visited = false;
 	}
 	public HashMap<Node, Integer> getNeighbors() {
 		return neighbors;
@@ -23,8 +25,14 @@ public class Node{
 	public String getName(){
 		return name;
 	}
+	public boolean isVisited(){
+		return visited;
+	}
+	public void setVisited(boolean v){
+		visited = v;
+	}
 	public String toString(){
-		return "["+name+"]";
+		return name;
 	}
 	public void print(){
 		String node = "";

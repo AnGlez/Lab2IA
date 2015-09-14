@@ -17,6 +17,7 @@ public class Graph{
 	public void addNode(Node n){
 		nodes.put(n.getName(), n);
 	}
+	
 	/* Reads text file with adjacency matrix 
 	 * Creates nodes in first iteration 
 	 * Adds nodes to Graph's nodes HashMap
@@ -36,7 +37,7 @@ public class Graph{
 			while (t.hasMoreTokens()){ // create each node and add them to the graph
 				String city = t.nextToken();
 				myGraph.addNode(new Node(city));
-				nodeIds.add(city);
+				nodeIds.add(city); //auxiliary structure to keep track of the cities' order within the matrix
 				row++;
 			}
 
@@ -46,7 +47,6 @@ public class Graph{
 				StringTokenizer tk = new StringTokenizer(line); //tokenizing current line
 				col = 0; //restart pointer to first column of matrix
 				while (tk.hasMoreTokens()){
-					
 					Node neigh = myGraph.findNode(nodeIds.get(col)); //neighbor of current node
 					int c = Integer.parseInt(tk.nextToken());//path cost to neighbor, -1 if there's no path
 					myGraph.findNode(nodeIds.get(row)).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
@@ -59,6 +59,7 @@ public class Graph{
 			e.printStackTrace();
 		}
 	}
+	
 	public void print(){
 		Iterator i = nodes.entrySet().iterator();
 		while (i.hasNext()){
@@ -66,8 +67,8 @@ public class Graph{
 			Node n = (Node) pair.getValue();
 			n.print();
 		}
-		
 	}
+	
 	public Node findNode(String name) {
 		return nodes.get(name);
 	}
