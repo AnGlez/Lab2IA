@@ -17,7 +17,9 @@ public class Graph{
 	public void addNode(Node n){
 		nodes.put(n.getName(), n);
 	}
-	
+	public HashMap<String,Node> getNodes(){
+		return nodes;
+	}
 	/* Reads text file with adjacency matrix 
 	 * Creates nodes in first iteration 
 	 * Adds nodes to Graph's nodes HashMap

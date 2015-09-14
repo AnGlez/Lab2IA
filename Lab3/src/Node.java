@@ -7,18 +7,26 @@ public class Node{
 	private HashMap<Node, Integer> neighbors; //neighbor node and edge cost
 	private String name;
 	private boolean visited;
+	private int cost; 
 	
 	public Node(String name) {
 		neighbors = new HashMap<Node, Integer>();
 		this.name = name;
 		visited = false;
+		cost = 0;
 	}
 	public HashMap<Node, Integer> getNeighbors() {
 		return neighbors;
 	}
 	public void setNeighbors(HashMap<Node, Integer> neighbors) {
 		this.neighbors = neighbors;
-	}	
+	}
+	public void setCost(int c) {
+		cost = c;
+	}
+	public int getCost(){
+		return cost;
+	}
 	public void addNeighbor(Node n, int cost) {
 		neighbors.put(n, cost); 
 	}
