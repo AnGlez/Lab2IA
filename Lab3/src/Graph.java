@@ -71,6 +71,16 @@ public class Graph{
 		}
 	}
 	
+	public void resetGraphState(){
+		Iterator i = nodes.entrySet().iterator();
+		while (i.hasNext()){
+			Map.Entry pair = (Map.Entry)i.next();
+			Node n = (Node) pair.getValue();
+			n.setVisited(false);
+			n.setCost(0);
+		}
+	}
+	
 	public Node findNode(String name) {
 		return nodes.get(name);
 	}
