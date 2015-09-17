@@ -75,5 +75,16 @@ public class Graph{
 	public Node findNode(int id) {
 		return nodes.get(id);
 	}
+	
+	public void resetGraphState(){
+		Iterator i = nodes.entrySet().iterator();
+		while (i.hasNext()){
+			Map.Entry pair = (Map.Entry)i.next();
+			Node n = (Node) pair.getValue();
+			n.setVisited(false);
+			n.setCost(0);
+		}
+	}
+
 
 }
