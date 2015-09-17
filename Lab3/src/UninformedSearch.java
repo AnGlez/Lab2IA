@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 
 public class UninformedSearch {
 	
@@ -94,25 +95,73 @@ public class UninformedSearch {
 		return null;
 	}
 	
-	public Node uniformCost(String start, String destination){
-		return null;
+	public void uniformCost(String sta, String dest){
+		PriorityQueue<Node> frontier = new PriorityQueue<Node>(new Comparer()); //This constructor calls the comparer class which defines property to compare 
+		Node start = myGraph.findNode(sta);
+		Node end = myGraph.findNode(dest);
+		int pathCost = 0;
+		HashMap<Node, Integer> neighbors = null;
+		
+		frontier.add(start);
+
+		while (!frontier.isEmpty()){ //while there are still nodes to visit
+			System.out.println("Frontier: "+frontier.toString());
+
+			Node top = frontier.poll();
+			top.setVisited(true); //marking node as visited to avoid loops
+			System.out.println("Node " + top.getName()+" cost "+ top.getCost());
+
+			if (top.equals(end)){ //goal test
+				System.out.println("Found destination: "+top.getName());
+				break;
+			}	
+			
+			neighbors = top.getNeighbors();
+			
+			for (Node n : neighbors.keySet()){ //check each node's neighbor
+				if (!n.isVisited() && neighbors.get(n) != -1){ //There is a path to get to node
+						pathCost = neighbors.get(n) + top.getCost();
+						
+						if(!frontier.contains(n)){ //If I haven't inserted it, then I add it to queue
+							System.out.println(n.getName()+" inserted with cost... "+ pathCost);
+							n.setCost(pathCost);
+							frontier.add(n);
+							
+						}else if(pathCost < n.getCost()){ //In case a Node was already in frontier, but we find a better path
+							System.out.println(n.getName()+" updated with cost... "+ pathCost);
+							frontier.remove(n); //In case there is a new way to get to a node cheaper, update expensive path
+							n.setCost(pathCost);
+							frontier.add(n);
+
+						}
+
+
+				}
+			}
+		}
 	}
 	
 	public static void main(String args[]){
-		LinkedList<Node> frontier = new LinkedList<Node>(); //stack of unvisited nodes (depthfirst)
+		LinkedList<Node> frontier = new LinkedList<Node>(); 
 		myGraph = new Graph();
 		myGraph.load("graph.txt");
 		//myGraph.print();
 		UninformedSearch us = new UninformedSearch();
-		Node breadthResult = us.breadthFirst("Celayork","Leondres");
+		us.breadthFirst("Celayork","Leondres");
 		
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();
 		System.out.println("DEPTH FIRST SEARCH:");
 		Node depthResult = us.depthFirst("Celayork", "Leondres", frontier);
-		
 		if(depthResult==null)
 			System.out.println("Destination not found! :(");
 		
+		System.out.print("\n\n\n-----------------------------------------------------\n");
+		myGraph.resetGraphState();
+		System.out.println("UNIFORM COST SEARCH:");
+		us.uniformCost("Celayork", "Leondres");
+		
 	}
 }
+
+
