@@ -7,17 +7,15 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Graph{
-	private HashMap<String,Node> nodes;
-	private ArrayList<String> nodeIds;
+	private HashMap<Integer,Node> nodes;
 	
 	public Graph(){
-		nodes = new HashMap<String,Node>();
-		nodeIds = new ArrayList<String>();
+		nodes = new HashMap<Integer,Node>();
 	}
 	public void addNode(Node n){
-		nodes.put(n.getName(), n);
+		nodes.put(n.getId(), n);
 	}
-	public HashMap<String,Node> getNodes(){
+	public HashMap<Integer,Node> getNodes(){
 		return nodes;
 	}
 	/* Reads text file with adjacency matrix 
@@ -34,24 +32,27 @@ public class Graph{
 			String line;
 			int row = 0, col = 0;
 			
-			line = reader.readLine(); //the first line only tells us how many nodes there are
-			StringTokenizer t = new StringTokenizer(line);
-			while (t.hasMoreTokens()){ // create each node and add them to the graph
-				String city = t.nextToken();
-				myGraph.addNode(new Node(city));
-				nodeIds.add(city); //auxiliary structure to keep track of the cities' order within the matrix
-				row++;
+			line = reader.readLine();
+			while (line.charAt(0) == '#'){
+				reader.mark(100000);
+				line = reader.readLine();
 			}
-
-			line = reader.readLine(); //skipping this line 
-			row = 0; //restart the pointer to the first row of the matrix
+			
+			StringTokenizer t = new StringTokenizer(line);
+			while (t.hasMoreTokens()){
+				myGraph.addNode(new Node(col));
+				col++;
+				t.nextToken();
+			}
+			
+			reader.reset();
 			while ((line = reader.readLine()) != null){
 				StringTokenizer tk = new StringTokenizer(line); //tokenizing current line
 				col = 0; //restart pointer to first column of matrix
 				while (tk.hasMoreTokens()){
-					Node neigh = myGraph.findNode(nodeIds.get(col)); //neighbor of current node
+					Node neigh = myGraph.findNode(col); //neighbor of current node
 					int c = Integer.parseInt(tk.nextToken());//path cost to neighbor, -1 if there's no path
-					myGraph.findNode(nodeIds.get(row)).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
+					myGraph.findNode(row).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
 					col++; //moving pointer to next column of adjacency matrix
 				}
 				row++;//moving pointer to next row
@@ -71,8 +72,8 @@ public class Graph{
 		}
 	}
 	
-	public Node findNode(String name) {
-		return nodes.get(name);
+	public Node findNode(int id) {
+		return nodes.get(id);
 	}
 
 }

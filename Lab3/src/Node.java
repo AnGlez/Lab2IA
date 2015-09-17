@@ -5,13 +5,13 @@ import java.util.Map;
 public class Node{
 
 	private HashMap<Node, Integer> neighbors; //neighbor node and edge cost
-	private String name;
 	private boolean visited;
-	private int cost; 
+	private int cost;
+	private int id;
 	
-	public Node(String name) {
+	public Node(int id) {
 		neighbors = new HashMap<Node, Integer>();
-		this.name = name;
+		this.id = id;
 		visited = false;
 		cost = 0;
 	}
@@ -30,8 +30,8 @@ public class Node{
 	public void addNeighbor(Node n, int cost) {
 		neighbors.put(n, cost); 
 	}
-	public String getName(){
-		return name;
+	public int getId(){
+		return id;
 	}
 	public boolean isVisited(){
 		return visited;
@@ -40,7 +40,7 @@ public class Node{
 		visited = v;
 	}
 	public String toString(){
-		return name;
+		return id+"";
 	}
 	public void print(){
 		String node = "";
