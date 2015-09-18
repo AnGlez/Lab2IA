@@ -45,28 +45,28 @@ public class UninformedSearch {
 		return null;
 	}
 
-	public Node depthFirst(int sta, int dest, LinkedList<Node> frontier){
+	public Node depthFirst(int sta, int dest, LinkedList<Node> frontier, String visitedNodes,boolean [] inFrontier){
 		Node start = myGraph.findNode(sta);
 		Node end = myGraph.findNode(dest);
 		HashMap<Node, Integer> neighbors = null;
 		Node nodeResult = null;
-		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
-		String visitedNodes = "";
 		int cost = 0;
 		
 		frontier.push(start); //pushing (stack) start node to frontier
-
+		
 		while (!frontier.isEmpty()){ //while there are still nodes to visit
 			Node top = frontier.peek(); //check the top of the stack
 			neighbors = top.getNeighbors();
-			top.setVisited(true); //marking node as visited to avoid loops
+
 			visitedNodes += top.getId()+", ";
+			top.setVisited(true); //marking node as visited to avoid loops
 			
 			for (Node n : neighbors.keySet()){ //check each node's neighbor
 				if (!n.isVisited()&& !inFrontier[n.getId()]){ //enqueue node if hasn't been visited and there is a path to get there
-					nodeResult = depthFirst(n.getId(), dest, frontier);
 					cost = n.getCost() + neighbors.get(n);
 					n.setCost(cost);
+					nodeResult = depthFirst(n.getId(),dest,frontier,visitedNodes,inFrontier);
+					inFrontier[n.getId()] = true;
 				}
 			}
 			try{
@@ -127,7 +127,6 @@ public class UninformedSearch {
 							frontier.add(n);
 
 						}
-
 				}
 			}
 		}
@@ -140,18 +139,22 @@ public class UninformedSearch {
 		
 		LinkedList<Node> frontier = new LinkedList<Node>(); 
 		myGraph = new Graph();
-		String filepath = args[1];
+		String filepath = args[0];
 		myGraph.load(filepath);
-		String from = args[2];
-		String to = args[3];
+		
+		String from = args[1];
+		String to = args[2];
 		
 		UninformedSearch us = new UninformedSearch();
 		Node end = us.breadthFirst(Integer.parseInt(from),Integer.parseInt(to));
-		
+		endTime = System.currentTimeMillis();
+		System.out.println(endTime - start);
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();
 		System.out.println("DEPTH FIRST SEARCH:");
-		Node depthResult = us.depthFirst(Integer.parseInt(from), Integer.parseInt(to), frontier);
+		String visitedNodes = "";
+		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+		Node depthResult = us.depthFirst(Integer.parseInt(from), Integer.parseInt(to), frontier,visitedNodes,inFrontier);
 		if(depthResult==null)
 			System.out.println("Destination not found! :(");
 		
