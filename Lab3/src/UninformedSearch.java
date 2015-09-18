@@ -134,8 +134,7 @@ public class UninformedSearch {
 	}
 	
 	public static void main(String args[]){
-		long start = System.currentTimeMillis();
-		long endTime;
+		long start,endTime;
 		
 		LinkedList<Node> frontier = new LinkedList<Node>(); 
 		myGraph = new Graph();
@@ -146,22 +145,30 @@ public class UninformedSearch {
 		String to = args[2];
 		
 		UninformedSearch us = new UninformedSearch();
+		start = System.currentTimeMillis();
 		Node end = us.breadthFirst(Integer.parseInt(from),Integer.parseInt(to));
 		endTime = System.currentTimeMillis();
-		System.out.println(endTime - start);
+		System.out.println("time (milliseconds)" + (endTime - start));
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();
 		System.out.println("DEPTH FIRST SEARCH:");
 		String visitedNodes = "";
+		
 		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+		start = System.currentTimeMillis();
 		Node depthResult = us.depthFirst(Integer.parseInt(from), Integer.parseInt(to), frontier,visitedNodes,inFrontier);
+		endTime = System.currentTimeMillis();
+
 		if(depthResult==null)
 			System.out.println("Destination not found! :(");
-		
+		System.out.println("time (milliseconds)" + (endTime - start));
+
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();
 		System.out.println("UNIFORM COST SEARCH:");
+		start = System.currentTimeMillis();
 		us.uniformCost(Integer.parseInt(from),Integer.parseInt(to));
+		endTime = System.currentTimeMillis();
 		
 	}
 }
