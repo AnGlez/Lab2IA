@@ -7,11 +7,13 @@ public class UninformedSearch {
 	
 	public static Graph myGraph;
 
-	public Node breathFirst(int s, int d){	
+	public Node breadthFirst(int s, int d){
+		
 		Node start = myGraph.findNode(s);
 		Node end = myGraph.findNode(d);
 		LinkedList<Node> frontier = new LinkedList<Node>(); //list of unvisited nodes
-		
+		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+
 		System.out.println("BREADTH FIRST SEARCH:");
 		frontier.add(start); //enqueueing start node to frontier
 		int cost = 0; //initial cost is 0
@@ -19,39 +21,34 @@ public class UninformedSearch {
 		
 		while (!frontier.isEmpty()){ //while there are still nodes to visit
 			Node shallow = frontier.poll(); //dequeue unvisited node
-			System.out.println("Visiting node "+shallow.getId()+"...");
+			System.out.println("Visiting node "+shallow.getId()+" and removing it from the frontier");
 			shallow.setVisited(true); //marking node as visited
 			
 			if (shallow.equals(end)){ //goal test
 				System.out.println("Found destination: "+shallow.getId());
 				return shallow;
 			}	
-			boolean inFrontier[] = new boolean[shallow.getNeighbors().size()];
-			for (int i = 0; i < inFrontier.length; i++) {
-				inFrontier[i] = false;
-			}
 			
 			for (Node n : shallow.getNeighbors().keySet()){ //check each node's neighbor
-				if (!n.isVisited() && shallow.getNeighbors().get(n) != -1 && !inFrontier[n.getId()]){ //enqueue node if hasn't been visited and there is a path to get there
+				if (!n.isVisited() && !inFrontier[n.getId()]){ //enqueue node if hasn't been visited and there is a path to get there
 					System.out.println(n.getId()+" hasn't been visited, adding to frontier...");
 					frontier.addLast(n);
 					inFrontier[n.getId()] = true;
 					System.out.println("Frontier: "+frontier.toString());
 				}	
-			
 			}
 		}
 		System.out.println("Destination not found :(");
 		return null;
 	}
-	
 
 	public Node depthFirst(int sta, int dest, LinkedList<Node> frontier){
 		Node start = myGraph.findNode(sta);
 		Node end = myGraph.findNode(dest);
 		HashMap<Node, Integer> neighbors = null;
 		Node nodeResult = null;
-		
+		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+
 		frontier.push(start); //pushing (stack) start node to frontier
 		System.out.println("Frontier: "+frontier.toString());
 		
@@ -61,7 +58,7 @@ public class UninformedSearch {
 			top.setVisited(true); //marking node as visited to avoid loops
 			
 			for (Node n : neighbors.keySet()){ //check each node's neighbor
-				if (!n.isVisited() && neighbors.get(n) != -1){ //enqueue node if hasn't been visited and there is a path to get there
+				if (!n.isVisited()&& !inFrontier[n.getId()]){ //enqueue node if hasn't been visited and there is a path to get there
 					System.out.println(n.getId()+" hasn't been visited, pushing to frontier...");
 					nodeResult = depthFirst(n.getId(), dest, frontier);
 				}
@@ -86,16 +83,18 @@ public class UninformedSearch {
 				return null;
 			}
 		}
+		System.out.println("Destination not found :(");
 		return null;
 	}
 	
-	public void uniformCost(int sta, int dest){
+	public Node uniformCost(int sta, int dest){
 		PriorityQueue<Node> frontier = new PriorityQueue<Node>(new Comparer()); //This constructor calls the comparer class which defines property to compare 
 		Node start = myGraph.findNode(sta);
 		Node end = myGraph.findNode(dest);
 		int pathCost = 0;
 		HashMap<Node, Integer> neighbors = null;
-		
+		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+
 		frontier.add(start);
 
 		while (!frontier.isEmpty()){ //while there are still nodes to visit
@@ -107,13 +106,13 @@ public class UninformedSearch {
 
 			if (top.equals(end)){ //goal test
 				System.out.println("Found destination: "+top.getId());
-				break;
+				return top;
 			}	
 			
 			neighbors = top.getNeighbors();
 			
 			for (Node n : neighbors.keySet()){ //check each node's neighbor
-				if (!n.isVisited() && neighbors.get(n) != -1){ //There is a path to get to node
+				if (!n.isVisited()&& !inFrontier[n.getId()]){ //There is a path to get to node
 						pathCost = neighbors.get(n) + top.getCost();
 						
 						if(!frontier.contains(n)){ //If I haven't inserted it, then I add it to queue
@@ -132,6 +131,7 @@ public class UninformedSearch {
 				}
 			}
 		}
+		return null;
 	}
 	
 	public static void main(String args[]){
@@ -140,7 +140,7 @@ public class UninformedSearch {
 		myGraph.load("graph.txt");
 		//myGraph.print();
 		UninformedSearch us = new UninformedSearch();
-		Node end = us.breathFirst(0,2);
+		Node end = us.breadthFirst(0,2);
 		
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();

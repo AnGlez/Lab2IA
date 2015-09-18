@@ -52,7 +52,8 @@ public class Graph{
 				while (tk.hasMoreTokens()){
 					Node neigh = myGraph.findNode(col); //neighbor of current node
 					int c = Integer.parseInt(tk.nextToken());//path cost to neighbor, -1 if there's no path
-					myGraph.findNode(row).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
+					if (c != -1) //checking if there's a path between the 2 nodes
+						myGraph.findNode(row).addNeighbor(neigh,c); //adding node and cost to current node's neighbor map
 					col++; //moving pointer to next column of adjacency matrix
 				}
 				row++;//moving pointer to next row
