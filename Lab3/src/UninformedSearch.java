@@ -100,6 +100,7 @@ public class UninformedSearch {
 	public Node uniformCost(int sta, int dest){
 		PQsort pqs = new PQsort();
 		PriorityQueue<Node> frontier = new PriorityQueue<Node>(pqs); //This constructor calls the comparer class which defines property to compare 
+		
 		Node start = myGraph.findNode(sta);
 		Node end = myGraph.findNode(dest);
 		int pathCost = 0;
@@ -114,6 +115,7 @@ public class UninformedSearch {
 			Node top = frontier.poll();
 			top.setVisited(true); //marking node as visited to avoid loops
 			visitedNodes += top.getId()+", ";
+			
 			if (top.equals(end)){ //goal test
 				System.out.println(top.getCost());
 				System.out.println(visitedNodes);
@@ -130,10 +132,11 @@ public class UninformedSearch {
 							frontier.offer(n);
 						}else if(n.getCost()> pathCost){
 							frontier.remove(n);
-							n.setCost(n.getCost());
+							n.setCost(pathCost);
 							frontier.offer(n);
 						}
 				}
+				
 			}
 		}
 		return null;
@@ -153,7 +156,7 @@ public class UninformedSearch {
 		String from = "1";
 
 		//String to = args[2];
-		String to = "4";
+		String to = "3";
 		//myGraph.print();
 		
 		UninformedSearch us = new UninformedSearch();
