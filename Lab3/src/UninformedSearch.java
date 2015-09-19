@@ -97,28 +97,37 @@ public class UninformedSearch {
 		System.out.println("Not found");
 		return null;
 	}
-	
+	public void printPath(LinkedList<Node> path, Node n){
+		String visitedNodes = "";
+		for(int i= 0; i< path.size(); i++){
+			if(path.get(i) != n.getParent()){
+				visitedNodes += path.get(i) .getId()+", ";
+			}else{
+				visitedNodes += n.getParent() + ", "+ n.getId();
+				break;
+			}
+		}
+		System.out.println(visitedNodes);
+		
+	}
 	public Node uniformCost(int sta, int dest){
 		PQsort pqs = new PQsort();
+		LinkedList<Node> path = new LinkedList<Node>();
 		PriorityQueue<Node> frontier = new PriorityQueue<Node>(pqs); //This constructor calls the comparer class which defines property to compare 
 		Node start = myGraph.findNode(sta);
 		Node end = myGraph.findNode(dest);
-		int pathCost = 0;
+		int pathCost = 0, index = 0;
 		HashMap<Node, Integer> neighbors = null;
-		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
-		String visitedNodes = "";
-		
 		frontier.add(start);
 
 		while (!frontier.isEmpty()){ //while there are still nodes to visit
-
+			
 			Node top = frontier.poll();
 			top.setVisited(true); //marking node as visited to avoid loops
-			inFrontier[top.getId()] = true;
-			visitedNodes += top.getId()+", ";
+			path.add(top);
 			if (top.equals(end)){ //goal test
 				System.out.println(top.getCost());
-				System.out.println(visitedNodes);
+				printPath(path, top);
 				return top;
 			}	
 			
@@ -127,11 +136,13 @@ public class UninformedSearch {
 			for (Node n : neighbors.keySet()){ //check each node's neighbor
 				if (!n.isVisited()){ //There is a path to get to node
 						pathCost = neighbors.get(n) + top.getCost();
-						if(!inFrontier[n.getId()]){
+						if(!frontier.contains(n)){
+							n.setParent(top);
 							n.setCost(pathCost);
 							frontier.offer(n);
 						}else if(n.getCost()> pathCost){
 							frontier.remove(n);
+							n.setParent(top);
 							n.setCost(pathCost);
 							frontier.offer(n);
 						}
@@ -140,6 +151,7 @@ public class UninformedSearch {
 		}
 		return null;
 	}
+	
 	
 	public static void main(String args[]){
 		long start,endTime;

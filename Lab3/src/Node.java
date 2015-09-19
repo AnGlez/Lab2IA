@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Node{
@@ -8,12 +9,14 @@ public class Node{
 	private boolean visited;
 	private int cost;
 	private int id;
+	private Node parent;
 	
 	public Node(int id) {
 		neighbors = new HashMap<Node, Integer>();
 		this.id = id;
 		visited = false;
 		cost = 0;
+		parent = null;
 	}
 	public HashMap<Node, Integer> getNeighbors() {
 		return neighbors;
@@ -39,9 +42,19 @@ public class Node{
 	public void setVisited(boolean v){
 		visited = v;
 	}
+	
+	
 	public String toString(){
 		return id+"";
 	}
+	
+	public Node getParent() {
+		return parent;
+	}
+	public void setParent(Node parent) {
+		this.parent = parent;
+	}
+	
 	public void print(){
 		String node = "";
 		Iterator i = neighbors.entrySet().iterator();
