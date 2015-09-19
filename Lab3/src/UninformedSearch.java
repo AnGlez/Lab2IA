@@ -52,12 +52,19 @@ public class UninformedSearch {
 		return null;
 	}
 
+<<<<<<< HEAD
 	public Node depthFirst(int sta, int dest, LinkedList<Node> frontier, String visitedNodes){
+=======
+	public Node depthFirst(int sta, int dest, LinkedList<Node> frontier, String visitedNodes,boolean [] inFrontier){
+>>>>>>> origin/master
 		Node start = myGraph.findNode(sta);
 		Node end = myGraph.findNode(dest);
 		HashMap<Node, Integer> neighbors = null;
 		Node nodeResult = null;
+<<<<<<< HEAD
 		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+=======
+>>>>>>> origin/master
 		int cost = 0;
 		
 		frontier.push(start); //pushing (stack) start node to frontier
@@ -65,18 +72,30 @@ public class UninformedSearch {
 		while (!frontier.isEmpty()){ //while there are still nodes to visit
 			Node top = frontier.peek(); //check the top of the stack
 			neighbors = top.getNeighbors();
-			top.setVisited(true); //marking node as visited to avoid loops
+
 			visitedNodes += top.getId()+", ";
+<<<<<<< HEAD
 			//System.out.println(neighbors.toString());
+=======
+			top.setVisited(true); //marking node as visited to avoid loops
+			
+>>>>>>> origin/master
 			for (Node n : neighbors.keySet()){ //check each node's neighbor
 
 				if (!n.isVisited()&& !inFrontier[n.getId()]){ //enqueue node if hasn't been visited and there is a path to get there
+<<<<<<< HEAD
 					cost = top.getCost() + neighbors.get(n);
 					//System.out.println("Setting cost "+ n.getId() + ":" + cost);
 					n.setCost(cost);
 					nodeResult = depthFirst(n.getId(), dest, frontier, visitedNodes);
 					if(nodeResult != null)
 						return nodeResult; //This is done to avoid going through nodes missing in stack
+=======
+					cost = n.getCost() + neighbors.get(n);
+					n.setCost(cost);
+					nodeResult = depthFirst(n.getId(),dest,frontier,visitedNodes,inFrontier);
+					inFrontier[n.getId()] = true;
+>>>>>>> origin/master
 				}
 			}
 			try{
@@ -143,11 +162,11 @@ public class UninformedSearch {
 	}
 	
 	public static void main(String args[]){
-		long start = System.currentTimeMillis();
-		long endTime;
+		long start,endTime;
 		
 		LinkedList<Node> frontier = new LinkedList<Node>(); 
 		myGraph = new Graph();
+<<<<<<< HEAD
 		//String filepath = args[0];
 		String filepath = "graph.txt";
 
@@ -158,21 +177,43 @@ public class UninformedSearch {
 		//String to = args[2];
 		String to = "3";
 		//myGraph.print();
+=======
+		String filepath = args[0];
+		myGraph.load(filepath);
+		
+		String from = args[1];
+		String to = args[2];
+>>>>>>> origin/master
 		
 		UninformedSearch us = new UninformedSearch();
+		start = System.currentTimeMillis();
 		Node end = us.breadthFirst(Integer.parseInt(from),Integer.parseInt(to));
-		
+		endTime = System.currentTimeMillis();
+		System.out.println("time (milliseconds)" + (endTime - start));
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();
 		System.out.println("DEPTH FIRST SEARCH:");
+<<<<<<< HEAD
 		Node depthResult = us.depthFirst(Integer.parseInt(from), Integer.parseInt(to), frontier, "");
+=======
+		String visitedNodes = "";
+		
+		boolean inFrontier[] = new boolean[myGraph.getNodes().size()];
+		start = System.currentTimeMillis();
+		Node depthResult = us.depthFirst(Integer.parseInt(from), Integer.parseInt(to), frontier,visitedNodes,inFrontier);
+		endTime = System.currentTimeMillis();
+
+>>>>>>> origin/master
 		if(depthResult==null)
 			System.out.println("Destination not found! :(");
-		
+		System.out.println("time (milliseconds)" + (endTime - start));
+
 		System.out.print("\n\n\n-----------------------------------------------------\n");
 		myGraph.resetGraphState();
 		System.out.println("UNIFORM COST SEARCH:");
+		start = System.currentTimeMillis();
 		us.uniformCost(Integer.parseInt(from),Integer.parseInt(to));
+		endTime = System.currentTimeMillis();
 		
 	}
 }
