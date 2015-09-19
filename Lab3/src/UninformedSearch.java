@@ -123,22 +123,17 @@ public class UninformedSearch {
 			neighbors = top.getNeighbors();
 			
 			for (Node n : neighbors.keySet()){ //check each node's neighbor
-				if (!n.isVisited() && !frontier.contains(n)){ //There is a path to get to node
-						/*if(!frontier.contains(n)){ //If I haven't inserted it, then I add it to queue
+				if (!n.isVisited()){ //There is a path to get to node
+						pathCost = neighbors.get(n) + top.getCost();
+						if(!frontier.contains(n)){
 							n.setCost(pathCost);
-							frontier.add(n);
-						}else if(pathCost < n.getCost()){ //In case a Node was already in frontier, but we find a better path
-							//System.out.println("Antes de remover:");
-							//System.out.println(frontier.toString());
-							frontier.remove(n); //In case there is a new way to get to a node cheaper, update expensive path
-							n.setCost(pathCost);
-							frontier.add(n);
-							//System.out.println(frontier.toString());
-						}*/
-						n.setCost(neighbors.get(n) + top.getCost());
-						frontier.offer(n);
+							frontier.offer(n);
+						}else if(n.getCost()> pathCost){
+							frontier.remove(n);
+							n.setCost(n.getCost());
+							frontier.offer(n);
+						}
 				}
-				System.out.println(frontier);
 			}
 		}
 		return null;
@@ -158,7 +153,7 @@ public class UninformedSearch {
 		String from = "1";
 
 		//String to = args[2];
-		String to = "3";
+		String to = "4";
 		//myGraph.print();
 		
 		UninformedSearch us = new UninformedSearch();
