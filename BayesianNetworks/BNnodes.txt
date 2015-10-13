@@ -1,0 +1,26 @@
+#This file contains the Nodes for bayesian network analysis
+#
+#Provide only probabilities when current state is true (including k nodes)
+#
+#Always use decimal point in probability, ex: 1.0
+#First Line we declare all the nodes that the network will have
+#
+#After the declaration @! we type the probabilities we want to calculate
+#Ex: P(-Sick!Loses), P(Dry),… 
+#
+#
+Sick Dry Loses
+
+Sick = 0.1
+Dry  = 0.1
+Loses|Dry   = 0.95
+Loses|-Dry  = 0.85
+
+@!
+-Sick!Loses
+Dry
+-Loses!Dry
+-Loses!-Dry
+Loses!-Dry
+
+
