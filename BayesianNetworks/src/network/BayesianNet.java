@@ -38,17 +38,21 @@ public class BayesianNet {
 	}
 	
 	public void calculateProb(String request){
-		StringTokenizer tk = new StringTokenizer(request, "!");
+		StringTokenizer tk = new StringTokenizer(request, "|");
 		String token;
 		StringBuilder sBuilder = new StringBuilder();
 		while(tk.hasMoreTokens()){
 			token = tk.nextToken();
-			BNode queryNode = getBNode(token);
+			sBuilder.append(token);
+			//System.out.println(token.replaceAll("[+-]", ""));
+			BNode queryNode = getBNode(token.replaceAll("[+-]", ""));
+			//this.calc.putQueryResponse(request.replace("!", "|"), queryNode.getProbability(token));
+
 			if(!queryNode.hasParents()){                //This NODE requested doesn't depend on anything, return value right away
-				this.calc.putQueryResponse(request.replace("!", "|"), queryNode.getProbability(token));
+				this.calc.putQueryResponse(request, queryNode.getProbability(token));
 				break;
 			}else{
-				this.calc.putQueryResponse(request.replace("!", "|"), queryNode.getProbability(request.replace("!", "|")));
+				this.calc.putQueryResponse(request, queryNode.getProbability(request));
 				break;
 			}
 		}
@@ -91,13 +95,14 @@ public class BayesianNet {
 				line = reader.readLine();
 			}
 			
+																//First we read all the main Nodes that will exist in our network
 			StringTokenizer t = new StringTokenizer(line);
 			while (t.hasMoreTokens()){
 				network.putBNode(new BNode(t.nextToken()));
 			}
 		
 			while (!probRequests && (line = reader.readLine()) != null){
-				tk = new StringTokenizer(line, "|=@"); 
+				tk = new StringTokenizer(line, "|="); 
 				
 				node = 0;
 				sBuilder = new StringBuilder(); //This will be used to hold node names and use them as keys for probabilities
@@ -105,23 +110,24 @@ public class BayesianNet {
 					token = tk.nextToken();
 					token = token.replace(" ", "");
 					
-					if(token.charAt(0)=='!'){
+					if(token.charAt(0)=='@'){           //Here we break parsing probabilities and now we go to the probability requests
 						probRequests = true;
 						break;
 					}
 					prob = 0;
 
 					if(node==0){                                          //This node read is the node we will modify its probability
-						tempNode = network.getBNode(token);
+						tempNode = network.getBNode(token.replaceAll("[+-]", ""));
 						sBuilder.append(token);
 						
 					}else if(token.contains(".")){                        //This validation makes sure we are reading a float
 						prob = Float.parseFloat(token);
 						tempNode.putProbability(sBuilder.toString(), prob);
 						network.putBNode(tempNode);
-					}else if(node==1){
+						
+					}else if(node>0){
 						sBuilder.append("|"+token);
-						aux = token.replace("-", "");
+						aux = token.replaceAll("[+-]", "");
 						if(token.contains(",") && !tempNode.hasParents()){ //We want to make sure we don't add parents twice
 							tkParents = new StringTokenizer(aux,",");
 							while(tkParents.hasMoreTokens()){
@@ -139,7 +145,7 @@ public class BayesianNet {
 				tk = new StringTokenizer(line);
 				while (tk.hasMoreTokens()){
 					token = tk.nextToken();
-					calc.putQueryResponse(token.replace("!", "|"), 0);
+					calc.putQueryResponse(token, 0);
 					network.calculateProb(token);
 				}
 			}

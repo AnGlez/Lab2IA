@@ -11,16 +11,26 @@
 #
 Sick Dry Loses
 
-Sick = 0.1
-Dry  = 0.1
-Loses|Dry   = 0.95
-Loses|-Dry  = 0.85
++Sick = 0.1
++Dry  = 0.1
++Loses|+Dry,+Sick   = 0.95
++Loses|+Dry,-Sick  = 0.85
++Loses|-Dry,+Sick  = 0.9
++Loses|-Dry,-Sick  = 0.02
 
-@!
--Sick!Loses
-Dry
--Loses!Dry
--Loses!-Dry
-Loses!-Dry
+
+
+@ ———————————Queries go beyond this point—————————————
++Dry
+-Loses|+Dry,+Sick
++Loses|-Dry
+-Loses|-Dry
++Loses|-Dry,-Sick
+-Loses|-Dry,-Sick
++Loses|+Sick
++Loses|-Sick
+-Loses
++Loses
+
 
 
