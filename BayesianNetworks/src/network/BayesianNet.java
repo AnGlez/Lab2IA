@@ -63,7 +63,6 @@ public class BayesianNet {
 				
 				if (query[1].contains(",")){ //we have information about the 2 causes
 					String qLike = query[1].split("\\,")[0]+"|"+query[1].split("\\,")[1]+","+query[0];
-					System.out.println("qlike"+qLike);
 					BNode likeNode =this.getBNode(query[1].split("\\,")[0].substring(1)); 
 					likelihood = likeNode.getProbability(qLike);
 					prior = this.getBNode(query[0].substring(1)).getProbability(query[0]);

@@ -6,7 +6,7 @@
 #First Line we declare all the nodes that the network will have
 #
 #After the declaration @! we type the probabilities we want to calculate
-#Ex: P(-Sick!Loses), P(Dry),â€¦ 
+#Ex: P(-Sick!Loses), P(Dry),… 
 #
 #
 Sick Dry Loses
@@ -20,7 +20,7 @@ Sick Dry Loses
 
 
 
-@ â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”Queries go beyond this pointâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+@ ———————————Queries go beyond this point—————————————
 +Dry
 -Loses|+Dry,+Sick
 +Loses|-Dry
@@ -28,7 +28,6 @@ Sick Dry Loses
 +Loses|-Dry,-Sick
 -Loses|-Dry,-Sick
 +Loses|+Sick
-<<<<<<< HEAD
 -Loses|+Sick
 +Loses|-Sick
 -Loses
@@ -37,11 +36,5 @@ Sick Dry Loses
 +Sick|+Loses
 -Dry|+Loses,+Sick
 +Dry|-Loses,-Sick
-=======
-+Loses|-Sick
--Loses
-+Loses
-
->>>>>>> origin/master
 
 
